@@ -2,40 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsuarioRequest;
 use Illuminate\Http\Request;
-use App\Imovel;
-use App\Locador;
-use App\Cidade;
+use App\User;
 use Carbon\Carbon;
-use App\Http\Requests\ImovelRequest;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
-class ImovelController extends Controller
+class UsuarioController extends Controller
 {
     private $repository;
-    private $request;
 
-    public function __construct(Imovel $imovel, Request $request)
+    use RegistersUsers;
+    public function __construct(User $usuario)
     {
         $this->middleware('auth');
-        $this->repository = $imovel;
-        $this->request = $request;
+        $this->repository = $usuario;
     }
 
+    
     public function index()
     {
         //$registros = Locador::paginate(10);
         $registros = $this->repository->paginate(10);
-        return view('imovel.index', [
+        return view('usuario.index', [
             'registros' => $registros,
         ]);
     }
 
     public function search(Request $request)
     {
-        
+
         $filters = $request->all();
         $registros = $this->repository->search($request->nome);
-        return view('imovel.index', [
+        return view('usuario.index', [
             'registros' => $registros,
             'filters' => $filters,
         ]);
@@ -43,35 +42,27 @@ class ImovelController extends Controller
 
     public function new()
     {
-        $cidades = Cidade::all();
-        $locadores = Locador::all();
-        return view('imovel.incluir',[
-            'locadores' => $locadores,
-            'cidades' => $cidades,
-        ]);
+        return view('usuario.incluir');
     }
-    public function create(ImovelRequest $request)
+    public function create(UsuarioRequest $request)
     {
         $data = $request->all();
         $this->repository->create($data);
-        return redirect()->route('imovel.listar')->with('success', 'Registro incluido com sucesso');
+        
+        return redirect()->route('usuario.listar')->with('success', 'Registro incluido com sucesso');
     }
     public function edit($id)
     {
-        $cidades = Cidade::all();
-        $locadores = Locador::all();
         $registro = $this->repository->find($id);
         if(!$registro){
             return redirect()->back();
         }
-        return view('imovel.alterar',[
+        return view('usuario.alterar',[
             'registro'=>$registro,
-            'locadores' => $locadores,
-            'cidades' => $cidades,
         ]);
     }
 
-    public function save(ImovelRequest $request, $id)
+    public function save(UsuarioRequest $request, $id)
     {
         $data = $request->all();
 
@@ -80,43 +71,35 @@ class ImovelController extends Controller
        
       //  $this->repository->update($data);
         $registro->update($data);
-        return redirect()->route('imovel.listar')->with('success', 'Registro alterado com sucesso');
+        return redirect()->route('usuario.listar')->with('success', 'Registro alterado com sucesso');
     }
 
     public function delete($id)
     {
-        $cidades = Cidade::all();
-        $locadores = Locador::all();
+        
         $registro = $this->repository->find($id);
         if(!$registro){
             return redirect()->back();
         }
-        return view('imovel.excluir',[
+        return view('usuario.excluir',[
             'registro'=>$registro,
-            'locadores' => $locadores,
-            'cidades' => $cidades,
         ]);
     }
 
     public function excluir($id){
         $registro = $this->repository->find($id);
         $registro->delete();
-        return redirect()->route('imovel.listar')->with('success', 'Registro excluido com sucesso');
+        return redirect()->route('usuario.listar')->with('success', 'Registro excluido com sucesso');
     }
 
     public function show($id)
     {   
-        $cidades = Cidade::all();
-        $locadores = Locador::all();
         $registro = $this->repository->find($id);
         if(!$registro){
             return redirect()->back();
         }
-        return view('imovel.consultar',[
+        return view('usuario.consultar',[
             'registro'=>$registro,
-            'locadores' => $locadores,
-            'cidades' => $cidades,
         ]);
     }
-
 }

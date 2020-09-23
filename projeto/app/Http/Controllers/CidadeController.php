@@ -13,6 +13,7 @@ class CidadeController extends Controller
 
     public function __construct(Cidade $cidade)
     {
+        $this->middleware('auth');
         $this->repository = $cidade;
     }
 

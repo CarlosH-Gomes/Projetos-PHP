@@ -20,7 +20,7 @@
           <li><a class="treeview-item" href="{{url('/locador/listar')}}"><i class="icon fa fa-circle-o"></i>Lista de Locadores</a></li>
             <li><a class="treeview-item"  href="{{url('/imovel/listar')}}"><i class="icon fa fa-circle-o"></i>Lista de Imoveis</a></li>
             <li><a class="treeview-item" href="{{url('/cidade/listar')}}"><i class="icon fa fa-circle-o"></i> Lista de Cidades</a></li>
-            <li><a class="treeview-item" href="widgets.html"><i class="icon fa fa-circle-o"></i> Widgets</a></li>
+            <li><a class="treeview-item" href="{{url('/usuario/listar')}}"><i class="icon fa fa-circle-o"></i> Cadastrar usuario</a></li>
           </ul>
         </li>
         

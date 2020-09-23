@@ -15,6 +15,7 @@ class LocadorController extends Controller
 
     public function __construct(Locador $locador)
     {
+        $this->middleware('auth');
         $this->repository = $locador;
     }
 

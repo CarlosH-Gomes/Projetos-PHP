@@ -1,4 +1,4 @@
-@extends('layouts.autentifica')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -7,7 +7,7 @@
             <i class="fa fa-edit">Registro de Usuários</i>
         </h1>
         <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Login<</li>
+            <li class="breadcrumb-item"><a href="{{ url('/login') }}">Login</a></li>
         </ul>
     </div>
     <div class="tile">
@@ -107,5 +107,5 @@
         
     </div>
 
-</div>
+	
 @endsection

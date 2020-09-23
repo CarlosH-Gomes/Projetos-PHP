@@ -3,31 +3,35 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
+Route::namespace('Auth')->group(function(){
+    Route::get('/', 'LoginController@carregalogin')->name('page.login');
+    Route::get('/login', 'LoginController@carregalogin')->name('page.login');
+    Route::get('/logout', 'LoginController@logout')->name('user.logout');
+    Route::post('/login', 'LoginController@login')->name('user.login');
 
-Auth::routes(['register' =>false]);
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', function(){
-    return view('welcome');
+    Route::get('/verify_account', 'RegisterController@verify_account');
+
+    Route::get('/usuario/mailpage', 'RegisterController@mailpage');
+
+    Route::get('/reset_password', 'RegisterController@showResetPasswordPage');
+    
+    Route::post('/usuario/recuperar/senha', 'RegisterController@forgotPassword');
+
+    Route::get('registrar', 'RegisterController@index')->name('usuario.registrar');
+    Route::post('/usuario/registrar', 'RegisterController@registrar')->name('usuario.registrar');
+
+    Route::post('/usuario/reset/senha', 'RegisterController@resetPassword');
+
 });
 
+//Auth::routes();
 
 
-Route::prefix('auth')->group(function(){
-    Route::get('/login', 'Auth\LoginController@login')->name('auth.login');
-    Route::get('/register', 'Auth\RegisterController@register')->name('auth.register');
-    Route::post('/register', 'Auth\RegisterController@create')->name('auth.register');
 
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/home', 'HomeController@index')->name('home');
 });
 
 Route::prefix('locador')->group(function(){
@@ -70,6 +74,20 @@ Route::prefix('cidade')->group(function(){
     Route::get('/excluir/{id}','CidadeController@delete')->name('cidade.excluir');
     Route::post('/excluir/{id}','CidadeController@excluir')->name('cidade.excluir');
     Route::get('/consultar/{id}','CidadeController@show')->name('cidade.consultar');
+
+});
+
+Route::prefix('usuario')->group(function(){
+
+    Route::get('/listar','UsuarioController@index')->name('usuario.listar');
+    Route::any('/search','UsuarioController@search')->name('usuario.search');
+    Route::get('/novo','UsuarioController@new')->name('usuario.novo');
+    Route::post('/salvar','UsuarioController@create')->name('usuario.salvar');
+    Route::get('/alterar/{id}','UsuarioController@edit')->name('usuario.alterar');
+    Route::post('/save/{id}','UsuarioController@save')->name('usuario.save');
+    Route::get('/excluir/{id}','UsuarioController@delete')->name('usuario.excluir');
+    Route::post('/excluir/{id}','UsuarioController@excluir')->name('usuario.excluir');
+    Route::get('/consultar/{id}','UsuarioController@show')->name('usuario.consultar');
 
 });
 
