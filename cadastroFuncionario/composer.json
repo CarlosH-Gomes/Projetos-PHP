@@ -1,0 +1,9 @@
+{
+    "name":"cadfunc/func",
+    "autoload": {
+        "psr-4": {
+            "App\\":"app/"
+
+        }
+    }
+}
